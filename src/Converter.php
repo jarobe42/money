@@ -51,4 +51,20 @@ final class Converter
 
         return new Money($counterValue->getAmount(), $counterCurrency);
     }
+
+    public function convertHistorical(\DateTime $historicalDate, Money $money, Currency $counterCurrency, $roundingMode = Money::ROUND_HALF_UP)
+    {
+        $baseCurrency = $money->getCurrency();
+        $ratio = $this->exchange->quoteHistorical($historicalDate, $baseCurrency, $counterCurrency)->getConversionRatio();
+
+        $baseCurrencySubunit = $this->currencies->subunitFor($baseCurrency);
+        $counterCurrencySubunit = $this->currencies->subunitFor($counterCurrency);
+        $subunitDifference = $baseCurrencySubunit - $counterCurrencySubunit;
+
+        $ratio = $ratio / pow(10, $subunitDifference);
+
+        $counterValue = $money->multiply($ratio, $roundingMode);
+
+        return new Money($counterValue->getAmount(), $counterCurrency);
+    }
 }
