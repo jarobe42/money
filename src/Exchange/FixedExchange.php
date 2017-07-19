@@ -5,6 +5,7 @@ namespace Money\Exchange;
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
+use Money\Exception\UnresolvableHistoricalCurrencyPairException;
 use Money\Exchange;
 
 /**
@@ -41,5 +42,20 @@ final class FixedExchange implements Exchange
         }
 
         throw UnresolvableCurrencyPairException::createFromCurrencies($baseCurrency, $counterCurrency);
+    }
+
+    /**
+     * @param \DateTime $historicalDate
+     * @param Currency $baseCurrency
+     * @param Currency $counterCurrency
+     * @return CurrencyPair
+     */
+    public function quoteHistorical(\DateTime $historicalDate, Currency $baseCurrency, Currency $counterCurrency)
+    {
+        throw UnresolvableHistoricalCurrencyPairException::createFromCurrenciesAndDateTime(
+            $baseCurrency,
+            $counterCurrency,
+            $historicalDate
+        );
     }
 }

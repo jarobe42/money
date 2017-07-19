@@ -22,4 +22,17 @@ interface Exchange
      * @throws UnresolvableCurrencyPairException When there is no currency pair (rate) available for the given currencies
      */
     public function quote(Currency $baseCurrency, Currency $counterCurrency);
+
+    /**
+     * Returns a currency pair for the passed currencies with the rate coming from a third-party source.
+     *
+     * @param \DateTime $historicalDate
+     * @param Currency $baseCurrency
+     * @param Currency $counterCurrency
+     *
+     * @return CurrencyPair
+     *
+     * @throws UnresolvableCurrencyPairException When there is no currency pair (rate) available for the given currencies
+     */
+    public function quoteHistorical(\DateTime $historicalDate, Currency $baseCurrency, Currency $counterCurrency);
 }

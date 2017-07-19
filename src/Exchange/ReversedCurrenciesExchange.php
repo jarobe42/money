@@ -5,6 +5,7 @@ namespace Money\Exchange;
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
+use Money\Exception\UnresolvableHistoricalCurrencyPairException;
 use Money\Exchange;
 
 /**
@@ -33,6 +34,27 @@ final class ReversedCurrenciesExchange implements Exchange
      * {@inheritdoc}
      */
     public function quote(Currency $baseCurrency, Currency $counterCurrency)
+    {
+        try {
+            return $this->exchange->quote($baseCurrency, $counterCurrency);
+        } catch (UnresolvableCurrencyPairException $exception) {
+            try {
+                $currencyPair = $this->exchange->quote($counterCurrency, $baseCurrency);
+
+                return new CurrencyPair($baseCurrency, $counterCurrency, 1 / $currencyPair->getConversionRatio());
+            } catch (UnresolvableCurrencyPairException $inversedException) {
+                throw $exception;
+            }
+        }
+    }
+
+    /**
+     * @param \DateTime $historicalDate
+     * @param Currency $baseCurrency
+     * @param Currency $counterCurrency
+     * @return CurrencyPair
+     */
+    public function quoteHistorical(\DateTime $historicalDate, Currency $baseCurrency, Currency $counterCurrency)
     {
         try {
             return $this->exchange->quote($baseCurrency, $counterCurrency);
