@@ -10,7 +10,7 @@ use DateTimeInterface;
  *
  * @author Stefan Doorn <stefan@efectos.nl>
  */
-interface HistoricalExchange
+interface HistoricalExchange extends Exchange
 {
     /**
      * Returns a currency pair for the passed currencies with the rate coming from a third-party source at a certain date.
