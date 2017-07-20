@@ -2,13 +2,11 @@
 
 namespace Money;
 
-use Money\Exception\UnresolvableCurrencyPairException;
 use DateTimeInterface;
+use Money\Exception\UnresolvableCurrencyPairException;
 
 /**
- * Provides a way to get exchange rate from a third-party source at a certain moment in history and return a currency pair.
- *
- * @author Stefan Doorn <stefan@efectos.nl>
+ * Provides a way to get a historical exchange rate from a third-party source and return a currency pair.
  */
 interface HistoricalExchange extends Exchange
 {

@@ -2,8 +2,10 @@
 
 namespace Money\Exchange;
 
+use DateTimeInterface;
 use Money\Currency;
 use Money\CurrencyPair;
+use Money\Exception\HistoricalExchangeException;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 

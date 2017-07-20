@@ -2,6 +2,7 @@
 
 namespace Money;
 
+use DateTimeInterface;
 use Money\Exception\UnresolvableCurrencyPairException;
 
 /**

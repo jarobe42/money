@@ -16,7 +16,7 @@ use DateTimeInterface;
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-final class SwapExchange implements Exchange, HistoricalExchange
+final class SwapExchange implements HistoricalExchange
 {
     /**
      * @var Swap
