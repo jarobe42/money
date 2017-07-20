@@ -4,6 +4,8 @@ namespace spec\Money\Exchange;
 
 use Money\Currency;
 use Money\CurrencyPair;
+use Money\Exception\ConverterException;
+use Money\Exception\HistoricalExchangeException;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 use Money\Exchange\FixedExchange;

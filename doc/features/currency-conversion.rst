@@ -103,12 +103,12 @@ Then conversion is quite simple:
 .. code:: php
 
     use Money\Money;
-    use Money\HistoricalConverter;
+    use Money\Converter;
 
     // $swap = Implementation of \Swap\SwapInterface
-    $exchange = new HistoricalSwapExchange($swap);
+    $exchange = new SwapExchange($swap);
 
-    $converter = new HistoricalConverter(new ISOCurrencies(), $exchange);
+    $converter = new Converter(new ISOCurrencies(), $exchange);
     $date = new \DateTime();
     $eur100 = Money::EUR(100);
     $usd125 = $converter->convert($eur100, new Currency('USD'), $date);

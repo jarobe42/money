@@ -3,6 +3,7 @@
 namespace Money;
 
 use DateTimeInterface;
+use Money\Exception\ConverterException;
 use Money\Exception\UnresolvableCurrencyPairException;
 
 /**
@@ -19,6 +20,7 @@ interface HistoricalExchange extends Exchange
      *
      * @return CurrencyPair
      *
+     * @throws ConverterException when the Exchange does not support historical conversions
      * @throws UnresolvableCurrencyPairException When there is no currency pair (rate) available for the given currencies
      */
     public function historical(Currency $baseCurrency, Currency $counterCurrency, DateTimeInterface $date);
