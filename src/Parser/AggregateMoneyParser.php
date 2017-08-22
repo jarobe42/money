@@ -2,6 +2,7 @@
 
 namespace Money\Parser;
 
+use Money\Currency;
 use Money\Exception;
 use Money\MoneyParser;
 
@@ -34,7 +35,7 @@ final class AggregateMoneyParser implements MoneyParser
     /**
      * {@inheritdoc}
      */
-    public function parse($money, $forceCurrency = null)
+    public function parse($money, Currency $forceCurrency = null)
     {
         foreach ($this->parsers as $parser) {
             try {

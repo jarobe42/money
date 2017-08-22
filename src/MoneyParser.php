@@ -13,11 +13,11 @@ interface MoneyParser
      * Parses a string into a Money object (including currency).
      *
      * @param string      $money
-     * @param string|null $forceCurrency
+     * @param Currency|null $forceCurrency
      *
      * @return Money
      *
      * @throws Exception\ParserException
      */
-    public function parse($money, $forceCurrency = null);
+    public function parse($money, Currency $forceCurrency = null);
 }

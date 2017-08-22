@@ -34,7 +34,7 @@ final class DecimalMoneyParser implements MoneyParser
     /**
      * {@inheritdoc}
      */
-    public function parse($money, $forceCurrency = null)
+    public function parse($money, Currency $forceCurrency = null)
     {
         if (!is_string($money)) {
             throw new ParserException('Formatted raw money should be string, e.g. 1.00');
@@ -46,14 +46,13 @@ final class DecimalMoneyParser implements MoneyParser
             );
         }
 
-        $currency = new Currency($forceCurrency);
         $decimal = trim($money);
 
         if ($decimal === '') {
-            return new Money(0, $currency);
+            return new Money(0, $forceCurrency);
         }
 
-        $subunit = $this->currencies->subunitFor($currency);
+        $subunit = $this->currencies->subunitFor($forceCurrency);
 
         if (!preg_match(self::DECIMAL_PATTERN, $decimal, $matches)) {
             throw new ParserException(sprintf(
@@ -94,6 +93,6 @@ final class DecimalMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, $currency);
+        return new Money($decimal, $forceCurrency);
     }
 }

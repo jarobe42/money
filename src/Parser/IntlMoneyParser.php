@@ -39,20 +39,20 @@ final class IntlMoneyParser implements MoneyParser
     /**
      * {@inheritdoc}
      */
-    public function parse($money, $forceCurrency = null)
+    public function parse($money, Currency $forceCurrency = null)
     {
         if (!is_string($money)) {
             throw new ParserException('Formatted raw money should be string, e.g. $1.00');
         }
 
-        $currencyCode = null;
-        $decimal = $this->formatter->parseCurrency($money, $currencyCode);
-
-        if (null !== $forceCurrency) {
-            $currencyCode = $forceCurrency;
+        if (null === $forceCurrency) {
+            throw new ParserException(
+                'DecimalMoneyParser cannot parse currency symbols. Use forceCurrency argument'
+            );
         }
 
-        $currency = new Currency($currencyCode);
+        $currencyCode = $forceCurrency->getCode();
+        $decimal = $this->formatter->parseCurrency($money, $currencyCode);
 
         if (false === $decimal) {
             throw new ParserException(
@@ -61,7 +61,7 @@ final class IntlMoneyParser implements MoneyParser
         }
 
         $decimal = (string) $decimal;
-        $subunit = $this->currencies->subunitFor($currency);
+        $subunit = $this->currencies->subunitFor($forceCurrency);
         $decimalPosition = strpos($decimal, '.');
 
         if (false !== $decimalPosition) {
@@ -89,6 +89,6 @@ final class IntlMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, $currency);
+        return new Money($decimal, $forceCurrency);
     }
 }

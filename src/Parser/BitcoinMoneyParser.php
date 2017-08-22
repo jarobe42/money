@@ -31,7 +31,7 @@ final class BitcoinMoneyParser implements MoneyParser
     /**
      * {@inheritdoc}
      */
-    public function parse($money, $forceCurrency = null)
+    public function parse($money, Currency $forceCurrency = null)
     {
         if (is_string($money) === false) {
             throw new ParserException('Formatted raw money should be string, e.g. $1.00');
@@ -39,6 +39,14 @@ final class BitcoinMoneyParser implements MoneyParser
 
         if (strpos($money, BitcoinCurrencies::SYMBOL) === false) {
             throw new ParserException('Value cannot be parsed as Bitcoin');
+        }
+
+        if($forceCurrency === null){
+            $forceCurrency = new Currency(BitcoinCurrencies::CODE);
+        }
+
+        if($forceCurrency->getCode() !== BitcoinCurrencies::CODE){
+            throw new ParserException('If provided, forceCurrency argument must be Bitcoin currency');
         }
 
         $decimal = str_replace(BitcoinCurrencies::SYMBOL, '', $money);
@@ -62,6 +70,6 @@ final class BitcoinMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, new Currency(BitcoinCurrencies::CODE));
+        return new Money($decimal, $forceCurrency);
     }
 }
